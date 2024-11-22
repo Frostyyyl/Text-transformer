@@ -12,7 +12,17 @@ public class TextTransformer {
     }
 
     public String transform(String text){
-        // of course, normally it would do something based on the transforms
-        return text.toUpperCase();
+        for (String transform : transforms) {
+            switch (transform) {
+                case "upper":
+                    text = text.toUpperCase();
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        return text;
     }
 }
