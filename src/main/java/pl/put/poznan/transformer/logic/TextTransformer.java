@@ -22,7 +22,6 @@ public class TextTransformer {
                     break;
                 default:
                     break;
-
             }
         }
 
