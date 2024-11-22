@@ -17,9 +17,11 @@ public class TextTransformer {
                 case "upper":
                     text = text.toUpperCase();
                     break;
+                case "lower":
+                    text = text.toLowerCase();
+                    break;
                 default:
                     break;
-
             }
         }
 
