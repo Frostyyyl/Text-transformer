@@ -2,6 +2,7 @@ package pl.put.poznan.transformer.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.transformer.logic.InverseTextTransformer;
 import pl.put.poznan.transformer.logic.TextTransformer;
 import pl.put.poznan.transformer.logic.UpperTextTransformer;
 
@@ -52,6 +53,10 @@ public class TextTransformerController {
                     break;
                 case "lower":
                     result = result.toLowerCase();
+                    break;
+                case "inverse":
+                    InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
+                    result = inverseTextTransformer.transform(result);
                     break;
                 default:
                     break;
