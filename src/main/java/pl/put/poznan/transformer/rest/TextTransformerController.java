@@ -2,12 +2,7 @@ package pl.put.poznan.transformer.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.transformer.logic.InverseTextTransformer;
-import pl.put.poznan.transformer.logic.NumberToTextTransformer;
-import pl.put.poznan.transformer.logic.TextTransformer;
-import pl.put.poznan.transformer.logic.UpperTextTransformer;
-import pl.put.poznan.transformer.logic.ExpandTextTransformer;
-import pl.put.poznan.transformer.logic.ShortenTextTransformer;
+import pl.put.poznan.transformer.logic.*;
 
 import java.util.Arrays;
 
@@ -72,6 +67,10 @@ public class TextTransformerController {
                 case "shorten":
                     ShortenTextTransformer ShortenTextTransformer = new ShortenTextTransformer(textTransformer);
                     result = ShortenTextTransformer.transform(result);
+                    break;
+                case "remove_duplicate":
+                    RemoveDuplicateTextTransformer RemoveDuplicateTextTransformer = new RemoveDuplicateTextTransformer(textTransformer);
+                    result = RemoveDuplicateTextTransformer.transform(result);
                     break;
                 default:
                     break;
