@@ -6,6 +6,8 @@ import pl.put.poznan.transformer.logic.InverseTextTransformer;
 import pl.put.poznan.transformer.logic.NumberToTextTransformer;
 import pl.put.poznan.transformer.logic.TextTransformer;
 import pl.put.poznan.transformer.logic.UpperTextTransformer;
+import pl.put.poznan.transformer.logic.ExpandTextTransformer;
+import pl.put.poznan.transformer.logic.ShortenTextTransformer;
 
 import java.util.Arrays;
 
@@ -62,6 +64,14 @@ public class TextTransformerController {
                 case "number_to_word":
                     NumberToTextTransformer numberToTextTransformer = new NumberToTextTransformer(textTransformer);
                     result = numberToTextTransformer.transform(result);
+                    break;
+                case "expand":
+                    ExpandTextTransformer ExpandTextTransformer = new ExpandTextTransformer(textTransformer);
+                    result = ExpandTextTransformer.transform(result);
+                    break;
+                case "shorten":
+                    ShortenTextTransformer ShortenTextTransformer = new ShortenTextTransformer(textTransformer);
+                    result = ShortenTextTransformer.transform(result);
                     break;
                 default:
                     break;
