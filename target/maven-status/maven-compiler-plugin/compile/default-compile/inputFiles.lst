@@ -1,3 +1,10 @@
-C:\Users\Frostyl\Repozytoria\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\TextTransformer.java
-C:\Users\Frostyl\Repozytoria\Text-transformer\src\main\java\pl\put\poznan\transformer\app\TextTransformerApplication.java
-C:\Users\Frostyl\Repozytoria\Text-transformer\src\main\java\pl\put\poznan\transformer\rest\TextTransformerController.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\Transformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\LowerTextTransformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\TransformerDecorator.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\rest\TextTransformerController.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\app\TextTransformerApplication.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\ShortenTextTransformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\InverseTextTransformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\TextTransformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\UpperTextTransformer.java
+C:\Users\kaczm\IdeaProjects\Text-transformer\src\main\java\pl\put\poznan\transformer\logic\ExpandTextTransformer.java

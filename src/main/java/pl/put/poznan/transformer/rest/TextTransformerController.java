@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.transformer.logic.InverseTextTransformer;
 import pl.put.poznan.transformer.logic.TextTransformer;
 import pl.put.poznan.transformer.logic.UpperTextTransformer;
+import pl.put.poznan.transformer.logic.ExpandTextTransformer;
+import pl.put.poznan.transformer.logic.ShortenTextTransformer;
 
 import java.util.Arrays;
 
@@ -57,6 +59,14 @@ public class TextTransformerController {
                 case "inverse":
                     InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
                     result = inverseTextTransformer.transform(result);
+                    break;
+                case "expand":
+                    ExpandTextTransformer ExpandTextTransformer = new ExpandTextTransformer(textTransformer);
+                    result = ExpandTextTransformer.transform(result);
+                    break;
+                case "shorten":
+                    ShortenTextTransformer ShortenTextTransformer = new ShortenTextTransformer(textTransformer);
+                    result = ShortenTextTransformer.transform(result);
                     break;
                 default:
                     break;
