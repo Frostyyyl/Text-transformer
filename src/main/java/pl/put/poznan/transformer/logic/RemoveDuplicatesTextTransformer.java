@@ -3,19 +3,18 @@ package pl.put.poznan.transformer.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoveDuplicateTextTransformer extends TransformerDecorator {
+public class RemoveDuplicatesTextTransformer extends TransformerDecorator {
 
-    public RemoveDuplicateTextTransformer(Transformer transformer) {
+    public RemoveDuplicatesTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
-    @Override
     public String transform(String text) {
         // Transform the input text using the previous transformer
-        String transformedText = transformer.transform(text);
+        text = transformer.transform(text);
 
         // Split the text into words
-        String[] words = transformedText.split("\\s+");
+        String[] words = text.split("\\s+");
         List<String> result = new ArrayList<>();
 
         // Remove consecutive duplicate words

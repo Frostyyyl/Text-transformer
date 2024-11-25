@@ -8,54 +8,55 @@ import java.util.Map;
 import static java.lang.Math.pow;
 
 public class NumberToTextTransformer extends TransformerDecorator{
-    Map<Integer, String> numbersTranslation = new HashMap<Integer, String>();
-    List<String> numberSuffixes = new ArrayList<String>();
-    Map<Integer, String> specialFractionNumber = new HashMap<Integer, String>();
+    private static final Map<Integer, String> NUMBER_TRANSLATIONS = new HashMap<Integer, String>();
+    private static final List<String> NUMBER_SUFFIXES = new ArrayList<String>();
+    private static final Map<Integer, String> SPECIAL_FRACTION_NUMBERS = new HashMap<Integer, String>();
+    static {
+        // Add translations to dictionaries
+        NUMBER_TRANSLATIONS.put(0, "zero");
+        NUMBER_TRANSLATIONS.put(1, "jeden");
+        NUMBER_TRANSLATIONS.put(2, "dwa");
+        NUMBER_TRANSLATIONS.put(3, "trzy");
+        NUMBER_TRANSLATIONS.put(4, "cztery");
+        NUMBER_TRANSLATIONS.put(5, "pięć");
+        NUMBER_TRANSLATIONS.put(6, "sześć");
+        NUMBER_TRANSLATIONS.put(7, "siedem");
+        NUMBER_TRANSLATIONS.put(8, "osiem");
+        NUMBER_TRANSLATIONS.put(9, "dziewięć");
+        NUMBER_TRANSLATIONS.put(10, "dziesięć");
+        NUMBER_TRANSLATIONS.put(11, "jedenaście");
+        NUMBER_TRANSLATIONS.put(15, "piętnaście");
+        NUMBER_TRANSLATIONS.put(16, "szesnaście");
+        NUMBER_TRANSLATIONS.put(19, "dziewiętnaście");
+        NUMBER_TRANSLATIONS.put(20, "dwadzieścia");
+        NUMBER_TRANSLATIONS.put(30, "trzydzieści");
+        NUMBER_TRANSLATIONS.put(40, "czterdzieści");
+        NUMBER_TRANSLATIONS.put(100, "sto");
+        NUMBER_TRANSLATIONS.put(200, "dwieście");
+        NUMBER_TRANSLATIONS.put(300, "trzysta");
+        NUMBER_TRANSLATIONS.put(400, "czterysta");
+        NUMBER_TRANSLATIONS.put(1000, "tysiąć");
 
+        NUMBER_SUFFIXES.add("naście");
+        NUMBER_SUFFIXES.add("dziesiąt");
+        NUMBER_SUFFIXES.add("set");
+        NUMBER_SUFFIXES.add("dziesiąta");
+        NUMBER_SUFFIXES.add("dziesiąte");
+        NUMBER_SUFFIXES.add("dziesiątych");
+        NUMBER_SUFFIXES.add("setna");
+        NUMBER_SUFFIXES.add("setne");
+        NUMBER_SUFFIXES.add("setnych");
+
+        SPECIAL_FRACTION_NUMBERS.put(1, "jedna");
+        SPECIAL_FRACTION_NUMBERS.put(2, "dwie");
+    }
 
     public NumberToTextTransformer(Transformer transformer) {
         super(transformer);
-
-        // Add translations to dictionary
-        numbersTranslation.put(0, "zero");
-        numbersTranslation.put(1, "jeden");
-        numbersTranslation.put(2, "dwa");
-        numbersTranslation.put(3, "trzy");
-        numbersTranslation.put(4, "cztery");
-        numbersTranslation.put(5, "pięć");
-        numbersTranslation.put(6, "sześć");
-        numbersTranslation.put(7, "siedem");
-        numbersTranslation.put(8, "osiem");
-        numbersTranslation.put(9, "dziewięć");
-        numbersTranslation.put(10, "dziesięć");
-        numbersTranslation.put(11, "jedenaście");
-        numbersTranslation.put(15, "piętnaście");
-        numbersTranslation.put(16, "szesnaście");
-        numbersTranslation.put(19, "dziewiętnaście");
-        numbersTranslation.put(20, "dwadzieścia");
-        numbersTranslation.put(30, "trzydzieści");
-        numbersTranslation.put(40, "czterdzieści");
-        numbersTranslation.put(100, "sto");
-        numbersTranslation.put(200, "dwieście");
-        numbersTranslation.put(300, "trzysta");
-        numbersTranslation.put(400, "czterysta");
-        numbersTranslation.put(1000, "tysiąć");
-
-        numberSuffixes.add("naście");
-        numberSuffixes.add("dziesiąt");
-        numberSuffixes.add("set");
-        numberSuffixes.add("dziesiąta");
-        numberSuffixes.add("dziesiąte");
-        numberSuffixes.add("dziesiątych");
-        numberSuffixes.add("setna");
-        numberSuffixes.add("setne");
-        numberSuffixes.add("setnych");
-
-        specialFractionNumber.put(1, "jedna");
-        specialFractionNumber.put(2, "dwie");
     }
 
     public String transform(String text) {
+        text = transformer.transform(text);
         StringBuilder newText = new StringBuilder();
 
         int i = 0;
@@ -107,7 +108,7 @@ public class NumberToTextTransformer extends TransformerDecorator{
             if(Integer.parseInt(numberText.substring(integerLength + 1)) == 0) {
                 int checkZero = Integer.parseInt(numberText.substring(0, integerLength));
                 if(checkZero == 0){
-                    return numbersTranslation.get(checkZero);
+                    return NUMBER_TRANSLATIONS.get(checkZero);
                 }
                 return newText.toString().trim();
             }
@@ -127,32 +128,32 @@ public class NumberToTextTransformer extends TransformerDecorator{
 
                 fraction += number;
 
-                if(specialFractionNumber.containsKey(number) && fraction < 10) {
-                   newText.append(specialFractionNumber.get(number));
+                if(SPECIAL_FRACTION_NUMBERS.containsKey(number) && fraction < 10) {
+                   newText.append(SPECIAL_FRACTION_NUMBERS.get(number));
                 }
                 else newText.append(findTranslation(number));
                 newText.append(" ");
             }
             if(fractionLength == 1){
                 if(fraction == 1) {
-                    newText.append(numberSuffixes.get(3));
+                    newText.append(NUMBER_SUFFIXES.get(3));
                 }
                 else if (fraction <= 4) {
-                    newText.append(numberSuffixes.get(4));
+                    newText.append(NUMBER_SUFFIXES.get(4));
                 }
                 else {
-                    newText.append(numberSuffixes.get(5));
+                    newText.append(NUMBER_SUFFIXES.get(5));
                 }
             }
             else {
                 if(fraction == 1) {
-                    newText.append(numberSuffixes.get(6));
+                    newText.append(NUMBER_SUFFIXES.get(6));
                 }
                 else if (fraction % 10 <= 4 && fraction % 10 > 1) {
-                    newText.append(numberSuffixes.get(7));
+                    newText.append(NUMBER_SUFFIXES.get(7));
                 }
                 else {
-                    newText.append(numberSuffixes.get(8));
+                    newText.append(NUMBER_SUFFIXES.get(8));
                 };
             }
         }
@@ -161,18 +162,18 @@ public class NumberToTextTransformer extends TransformerDecorator{
     }
 
     private String findTranslation(int number){
-        if(numbersTranslation.containsKey(number)) {
-            return numbersTranslation.get(number);
+        if(NUMBER_TRANSLATIONS.containsKey(number)) {
+            return NUMBER_TRANSLATIONS.get(number);
         }
         else {
             if(number <= 19){
-                return numbersTranslation.get(number % 10) + numberSuffixes.get(0);
+                return NUMBER_TRANSLATIONS.get(number % 10) + NUMBER_SUFFIXES.get(0);
             }
             else if(number <= 90){
-                return numbersTranslation.get(number / 10) + numberSuffixes.get(1);
+                return NUMBER_TRANSLATIONS.get(number / 10) + NUMBER_SUFFIXES.get(1);
             }
             else if(number <= 1000){
-                return numbersTranslation.get(number / 100) + numberSuffixes.get(2);
+                return NUMBER_TRANSLATIONS.get(number / 100) + NUMBER_SUFFIXES.get(2);
             }
         }
         return String.valueOf(number);

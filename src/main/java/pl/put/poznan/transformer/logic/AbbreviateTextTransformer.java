@@ -3,7 +3,7 @@ package pl.put.poznan.transformer.logic;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShortenTextTransformer extends TransformerDecorator {
+public class AbbreviateTextTransformer extends TransformerDecorator {
     private static final Map<String, String> KEYWORD_MAP = new HashMap<>();
     static {
         KEYWORD_MAP.put("bułki i chleb", "pieczywo");
@@ -12,12 +12,13 @@ public class ShortenTextTransformer extends TransformerDecorator {
         KEYWORD_MAP.put("motory i auta", "pojazdy");
     }
 
-    public ShortenTextTransformer(Transformer transformer) {
+    public AbbreviateTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
-    @Override
     public String transform(String text) {
+        text = transformer.transform(text);
+
         for (Map.Entry<String, String> entry : KEYWORD_MAP.entrySet()) {
             String keyword = entry.getKey();
             String expansion = entry.getValue();

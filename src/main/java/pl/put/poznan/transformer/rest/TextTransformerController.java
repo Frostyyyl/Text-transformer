@@ -21,9 +21,7 @@ public class TextTransformerController {
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        String result = performTransformation(text, transforms);
-        return result;
+        return performTransformation(text, transforms);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
@@ -34,9 +32,7 @@ public class TextTransformerController {
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        String result = performTransformation(text, transforms);
-        return result;
+        return performTransformation(text, transforms);
     }
 
     private String performTransformation(String text, String[] transforms){
@@ -50,7 +46,8 @@ public class TextTransformerController {
                     result = upperTextTransformer.transform(result);
                     break;
                 case "lower":
-                    result = result.toLowerCase();
+                    LowerTextTransformer lowerTextTransformer = new LowerTextTransformer(textTransformer);
+                    result = lowerTextTransformer.transform(result);
                     break;
                 case "inverse":
                     InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
@@ -60,17 +57,17 @@ public class TextTransformerController {
                     NumberToTextTransformer numberToTextTransformer = new NumberToTextTransformer(textTransformer);
                     result = numberToTextTransformer.transform(result);
                     break;
-                case "expand":
-                    ExpandTextTransformer ExpandTextTransformer = new ExpandTextTransformer(textTransformer);
-                    result = ExpandTextTransformer.transform(result);
+                case "expand_shortcuts":
+                    ExpandShortcutsTextTransformer expandShortcutsTextTransformer = new ExpandShortcutsTextTransformer(textTransformer);
+                    result = expandShortcutsTextTransformer.transform(result);
                     break;
-                case "shorten":
-                    ShortenTextTransformer ShortenTextTransformer = new ShortenTextTransformer(textTransformer);
-                    result = ShortenTextTransformer.transform(result);
+                case "abbreviate":
+                    AbbreviateTextTransformer abbreviateTextTransformer = new AbbreviateTextTransformer(textTransformer);
+                    result = abbreviateTextTransformer.transform(result);
                     break;
-                case "remove_duplicate":
-                    RemoveDuplicateTextTransformer RemoveDuplicateTextTransformer = new RemoveDuplicateTextTransformer(textTransformer);
-                    result = RemoveDuplicateTextTransformer.transform(result);
+                case "remove_duplicates":
+                    RemoveDuplicatesTextTransformer removeDuplicatesTextTransformer = new RemoveDuplicatesTextTransformer(textTransformer);
+                    result = removeDuplicatesTextTransformer.transform(result);
                     break;
                 default:
                     break;

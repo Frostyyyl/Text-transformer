@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ExpandTextTransformer extends TransformerDecorator {
+public class ExpandShortcutsTextTransformer extends TransformerDecorator {
     private static final Map<String, String> KEYWORD_MAP = new HashMap<>();
     static {
         KEYWORD_MAP.put("Dr", "Doktor");
@@ -13,12 +13,13 @@ public class ExpandTextTransformer extends TransformerDecorator {
         KEYWORD_MAP.put("itd.", "i tak dalej");
     }
 
-    public ExpandTextTransformer(Transformer transformer) {
+    public ExpandShortcutsTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
-    @Override
     public String transform(String text) {
+        text = transformer.transform(text);
+
         for (Map.Entry<String, String> entry : KEYWORD_MAP.entrySet()) {
             String keyword = entry.getKey();
             String expansion = entry.getValue();

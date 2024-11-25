@@ -6,6 +6,8 @@ public class InverseTextTransformer extends TransformerDecorator{
     }
 
     public String transform(String text) {
+        text = transformer.transform(text);
+
         StringBuilder newText = new StringBuilder();
         for (int i = text.length() - 1; i >= 0 ; i--) {
             newText.append(text.charAt(i));
