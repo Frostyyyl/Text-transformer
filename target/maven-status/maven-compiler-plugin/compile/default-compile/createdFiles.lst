@@ -1,3 +1,4 @@
+pl\put\poznan\transformer\logic\CapitalizeTextTransformer.class
 pl\put\poznan\transformer\logic\ExpandShortcutsTextTransformer.class
 pl\put\poznan\transformer\logic\AbbreviateTextTransformer.class
 pl\put\poznan\transformer\logic\RemoveDuplicatesTextTransformer.class

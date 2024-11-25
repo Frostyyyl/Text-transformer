@@ -49,6 +49,10 @@ public class TextTransformerController {
                     LowerTextTransformer lowerTextTransformer = new LowerTextTransformer(textTransformer);
                     result = lowerTextTransformer.transform(result);
                     break;
+                case "capitalize":
+                    CapitalizeTextTransformer capitalizeTextTransformer = new CapitalizeTextTransformer(textTransformer);
+                    result = capitalizeTextTransformer.transform(result);
+                    break;
                 case "inverse":
                     InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
                     result = inverseTextTransformer.transform(result);
