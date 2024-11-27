@@ -10,19 +10,32 @@ public class AbbreviateTextTransformer extends TransformerDecorator {
         KEYWORD_MAP.put("herbata i kawa.", "napoje");
         KEYWORD_MAP.put("koty i psy", "zwierzęta");
         KEYWORD_MAP.put("motory i auta", "pojazdy");
+        KEYWORD_MAP.put("między innymi", "m.in.");
+        KEYWORD_MAP.put("i tym podobne", "itp.");
+        KEYWORD_MAP.put("i tak dalej", "itpd");
     }
 
     public AbbreviateTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
+    @Override
     public String transform(String text) {
         text = transformer.transform(text);
 
         for (Map.Entry<String, String> entry : KEYWORD_MAP.entrySet()) {
             String keyword = entry.getKey();
-            String expansion = entry.getValue();
-            text = text.replaceAll("\\b" + keyword + "\\b", expansion);
+            String abbreviation = entry.getValue();
+            String lowerCaseText = text.toLowerCase();
+            String lowerCaseKeyword = keyword.toLowerCase();
+
+            int index = lowerCaseText.indexOf(lowerCaseKeyword);
+
+            while (index != -1) {
+                text = text.substring(0, index) + abbreviation + text.substring(index + keyword.length());
+                lowerCaseText = text.toLowerCase();
+                index = lowerCaseText.indexOf(lowerCaseKeyword, index + abbreviation.length());
+            }
         }
         return text;
     }
