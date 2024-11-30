@@ -12,6 +12,15 @@ public class InverseTextTransformer extends TransformerDecorator{
         for (int i = text.length() - 1; i >= 0 ; i--) {
             newText.append(text.charAt(i));
         }
-        return newText.toString();
+        return adjustCase(text, newText.toString());
+    }
+
+    private String adjustCase(String originalText, String inversedText) {
+        StringBuilder adjustedText = new StringBuilder();
+        for (int i = 0; i < originalText.length(); i++) {
+            if(Character.isUpperCase(originalText.charAt(i))) adjustedText.append(Character.toUpperCase(inversedText.charAt(i)));
+            if(Character.isLowerCase(originalText.charAt(i))) adjustedText.append(Character.toLowerCase(inversedText.charAt(i)));
+        }
+        return adjustedText.toString();
     }
 }
