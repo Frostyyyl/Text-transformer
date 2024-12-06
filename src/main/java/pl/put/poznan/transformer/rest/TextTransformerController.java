@@ -7,6 +7,9 @@ import pl.put.poznan.transformer.logic.*;
 import java.util.Arrays;
 
 
+/**
+ * API controller for our software that handles text transforms
+ */
 @RestController
 @RequestMapping("/{text}")
 public class TextTransformerController {
@@ -14,27 +17,35 @@ public class TextTransformerController {
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public String get(@PathVariable String text,
+    public Response get(@PathVariable String text,
                               @RequestParam(value="transforms", defaultValue="upper, escape") String[] transforms) {
 
         // log the parameters
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
 
-        return performTransformation(text, transforms);
+        String transformedText = performTransformation(text, transforms);
+        return new Response(transformedText);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String post(@PathVariable String text,
+    public Response post(@PathVariable String text,
                       @RequestBody String[] transforms) {
 
         // log the parameters
         logger.debug(text);
         logger.debug(Arrays.toString(transforms));
 
-        return performTransformation(text, transforms);
+        String transformedText = performTransformation(text, transforms);
+        return new Response(transformedText);
     }
 
+    /**
+     * Finds and executes all transforms
+     * @param text Text to transform
+     * @param transforms List of transforms to execute
+     * @return Transformed text
+     */
     private String performTransformation(String text, String[] transforms){
         TextTransformer textTransformer = new TextTransformer();
         String result = text;
@@ -79,5 +90,26 @@ public class TextTransformerController {
         }
 
         return result;
+    }
+
+    /**
+     * Class for making JSON Objects
+     */
+    public static class Response {
+        private String text;
+
+        public Response(String text) {
+            this.text = text;
+        }
+
+        // Those classes are for Spring Boot to show data
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
     }
 }

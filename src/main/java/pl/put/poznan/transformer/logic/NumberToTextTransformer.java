@@ -7,12 +7,27 @@ import java.util.Map;
 
 import static java.lang.Math.pow;
 
+/**
+ * Transformer for converting numbers written with digits to those written with words
+ */
 public class NumberToTextTransformer extends TransformerDecorator{
+    /**
+     * Dictionary for 1:1 number translations
+     */
     private static final Map<Integer, String> NUMBER_TRANSLATIONS = new HashMap<Integer, String>();
+
+    /**
+     * List of every suffix for numbers
+     */
     private static final List<String> NUMBER_SUFFIXES = new ArrayList<String>();
+
+    /**
+     * Dictionary for specific cases of number translations
+     */
     private static final Map<Integer, String> SPECIAL_FRACTION_NUMBERS = new HashMap<Integer, String>();
+
     static {
-        // Add translations to dictionaries
+        // Add 1:1 translations to dictionary
         NUMBER_TRANSLATIONS.put(0, "zero");
         NUMBER_TRANSLATIONS.put(1, "jeden");
         NUMBER_TRANSLATIONS.put(2, "dwa");
@@ -37,6 +52,7 @@ public class NumberToTextTransformer extends TransformerDecorator{
         NUMBER_TRANSLATIONS.put(400, "czterysta");
         NUMBER_TRANSLATIONS.put(1000, "tysiąć");
 
+        // Add suffixes
         NUMBER_SUFFIXES.add("naście");
         NUMBER_SUFFIXES.add("dziesiąt");
         NUMBER_SUFFIXES.add("set");
@@ -47,6 +63,7 @@ public class NumberToTextTransformer extends TransformerDecorator{
         NUMBER_SUFFIXES.add("setne");
         NUMBER_SUFFIXES.add("setnych");
 
+        // Add special case translations
         SPECIAL_FRACTION_NUMBERS.put(1, "jedna");
         SPECIAL_FRACTION_NUMBERS.put(2, "dwie");
     }
@@ -55,6 +72,11 @@ public class NumberToTextTransformer extends TransformerDecorator{
         super(transformer);
     }
 
+    /**
+     * Transforms text to one with numbers written with words
+     * @param text Text to transform
+     * @return Transformed text
+     */
     public String transform(String text) {
         text = transformer.transform(text);
         StringBuilder newText = new StringBuilder();
@@ -82,6 +104,11 @@ public class NumberToTextTransformer extends TransformerDecorator{
         return newText.toString();
     }
 
+    /**
+     * Converts digit number into words
+     * @param numberText Number as a string variable for conversion
+     * @return Number as words
+     */
     private String numberToText(String numberText) {
         System.out.println("Changing number: " + numberText);
 
@@ -161,6 +188,11 @@ public class NumberToTextTransformer extends TransformerDecorator{
         return newText.toString().trim();
     }
 
+    /**
+     * Finds proper translation for a specific part of a number
+     * @param number Number for translation
+     * @return Converted text number
+     */
     private String findTranslation(int number){
         if(NUMBER_TRANSLATIONS.containsKey(number)) {
             return NUMBER_TRANSLATIONS.get(number);
