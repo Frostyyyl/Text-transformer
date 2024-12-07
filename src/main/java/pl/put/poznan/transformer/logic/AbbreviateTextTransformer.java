@@ -1,8 +1,13 @@
 package pl.put.poznan.transformer.logic;
+/**
+ * Transformer for abbreviating declared strings
+ */
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Dictionary for predefined abbreviations
+ */
 public class AbbreviateTextTransformer extends TransformerDecorator {
     private static final Map<String, String> KEYWORD_MAP = new HashMap<>();
     static {
@@ -19,7 +24,10 @@ public class AbbreviateTextTransformer extends TransformerDecorator {
         super(transformer);
     }
 
-    @Override
+    /**
+     * @param text Text to transform
+     * @return Transformed text with abbreviations regardless of upper and lower case
+     */
     public String transform(String text) {
         text = transformer.transform(text);
 

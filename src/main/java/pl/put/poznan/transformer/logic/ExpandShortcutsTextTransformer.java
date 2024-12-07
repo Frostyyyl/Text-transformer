@@ -1,10 +1,14 @@
 package pl.put.poznan.transformer.logic;
-
+/**
+ * Transformer for expanding declared strings
+ */
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
+/**
+ * Dictionary for predefined shortcuts
+ */
 public class ExpandShortcutsTextTransformer extends TransformerDecorator {
     private static final Map<String, String> KEYWORD_MAP = new HashMap<>();
     static {
@@ -19,6 +23,10 @@ public class ExpandShortcutsTextTransformer extends TransformerDecorator {
         super(transformer);
     }
 
+    /**
+     * @param text Text to transform
+     * @return Transformed expanded text
+     */
     public String transform(String text) {
         text = transformer.transform(text);
 
@@ -40,7 +48,11 @@ public class ExpandShortcutsTextTransformer extends TransformerDecorator {
 
         return text;
     }
-
+    /**
+     * @param expansion expanded string from dictionary
+     * @param keyword original input found in the dictionary, case-sensitive
+     * @return shortcut with correct upper and lower case letters
+     */
     private String adjustCase(String expansion, String keyword) {
         if (keyword.equals(keyword.toUpperCase())) {
             return expansion.toUpperCase();
