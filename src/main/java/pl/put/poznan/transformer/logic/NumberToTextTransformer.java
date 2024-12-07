@@ -8,23 +8,27 @@ import java.util.Map;
 import static java.lang.Math.pow;
 
 /**
- * Transformer for converting numbers written with digits to those written with words
+ * A decorator implementation of the {@link Transformer} interface that converts
+ * all numbers from range 0-1000 and up to two decimal places to text.
+ * This class extends {@link TransformerDecorator} and modifies the behavior
+ * of the wrapped {@link Transformer}.
  */
-public class NumberToTextTransformer extends TransformerDecorator{
-    /**
-     * Dictionary for 1:1 number translations
-     */
-    private static final Map<Integer, String> NUMBER_TRANSLATIONS = new HashMap<Integer, String>();
+public class NumberToTextTransformer extends TransformerDecorator {
 
     /**
-     * List of every suffix for numbers
+     * Dictionary containing exact translations of numbers into text.
      */
-    private static final List<String> NUMBER_SUFFIXES = new ArrayList<String>();
+    private static final Map<Integer, String> NUMBER_TRANSLATIONS = new HashMap<>();
 
     /**
-     * Dictionary for specific cases of number translations
+     * List of numeric suffixes.
      */
-    private static final Map<Integer, String> SPECIAL_FRACTION_NUMBERS = new HashMap<Integer, String>();
+    private static final List<String> NUMBER_SUFFIXES = new ArrayList<>();
+
+    /**
+     * Dictionary containing specific cases of number translations.
+     */
+    private static final Map<Integer, String> SPECIAL_FRACTION_NUMBERS = new HashMap<>();
 
     static {
         // Add 1:1 translations to dictionary
@@ -68,35 +72,43 @@ public class NumberToTextTransformer extends TransformerDecorator{
         SPECIAL_FRACTION_NUMBERS.put(2, "dwie");
     }
 
+    /**
+     * Constructs a {@code NumberToTextTransformer} with the specified {@link Transformer}.
+     *
+     * @param transformer the {@link Transformer} instance to be wrapped
+     */
     public NumberToTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
     /**
-     * Transforms text to one with numbers written with words
-     * @param text Text to transform
-     * @return Transformed text
+     * Transforms the input text by first applying the transformation of the wrapped {@link Transformer}
+     * and then converting all numbers from range 0-1000 and up to two decimal places to text.
+     *
+     * @param text the input text to be transformed
+     * @return the transformed text
      */
+    @Override
     public String transform(String text) {
         text = transformer.transform(text);
         StringBuilder newText = new StringBuilder();
 
         int i = 0;
-        while(i < text.length()) {
-            if(Character.isDigit(text.charAt(i))) {
+        while (i < text.length()) {
+            if (Character.isDigit(text.charAt(i))) {
                 StringBuilder numberText = new StringBuilder();
-                while(Character.isDigit(text.charAt(i)) || text.charAt(i) == ',') {
+                while (Character.isDigit(text.charAt(i)) || text.charAt(i) == ',') {
                     numberText.append(text.charAt(i));
                     i++;
-                    if(i == text.length()) { break; }
+                    if (i == text.length()) {
+                        break;
+                    }
                 }
                 i--;
-                if(numberText.charAt(numberText.length() - 1) == ',') {
+                if (numberText.charAt(numberText.length() - 1) == ',') {
                     newText.append(numberToText(numberText.substring(0, numberText.length() - 1))).append(",");
-                }
-                else newText.append(numberToText(numberText.toString()));
-            }
-            else {
+                } else newText.append(numberToText(numberText.toString()));
+            } else {
                 newText.append(text.charAt(i));
             }
             i++;
@@ -105,25 +117,24 @@ public class NumberToTextTransformer extends TransformerDecorator{
     }
 
     /**
-     * Converts digit number into words
-     * @param numberText Number as a string variable for conversion
-     * @return Number as words
+     * Converts a numerical string into its corresponding word representation.
+     *
+     * @param numberText the number as a string (e.g., "123")
+     * @return the number converted to text (e.g., "one hundred twenty-three")
      */
     private String numberToText(String numberText) {
-        System.out.println("Changing number: " + numberText);
-
         StringBuilder newText = new StringBuilder();
         int integerLength = numberText.split(",", 2)[0].length(), fractionLength = 0;
-        if(numberText.contains(",")){
+        if (numberText.contains(",")) {
             fractionLength = numberText.split(",", 3)[1].length();
         }
 
         for (int i = 0; i < integerLength; i++) {
             int number = (int) (Character.getNumericValue(numberText.charAt(i)) * pow(10, integerLength - (i + 1)));
-            if(number == 0) {
+            if (number == 0) {
                 continue;
             }
-            if(number == 10){
+            if (number == 10) {
                 i++;
                 number += Character.getNumericValue(numberText.charAt(i));
             }
@@ -131,57 +142,53 @@ public class NumberToTextTransformer extends TransformerDecorator{
             newText.append(" ");
         }
 
-        if(fractionLength > 0){
-            if(Integer.parseInt(numberText.substring(integerLength + 1)) == 0) {
+        if (fractionLength > 0) {
+            if (Integer.parseInt(numberText.substring(integerLength + 1)) == 0) {
                 int checkZero = Integer.parseInt(numberText.substring(0, integerLength));
-                if(checkZero == 0){
+                if (checkZero == 0) {
                     return NUMBER_TRANSLATIONS.get(checkZero);
                 }
                 return newText.toString().trim();
             }
-            if(!newText.toString().isEmpty()) {
+            if (!newText.toString().isEmpty()) {
                 newText.append("i ");
             }
 
             int fraction = 0;
             for (int i = integerLength + 1; i < numberText.length(); i++) {
                 int number = (int) (Character.getNumericValue(numberText.charAt(i)) * pow(10, fractionLength - (i - integerLength)));
-                if(number == 0){ continue; }
+                if (number == 0) {
+                    continue;
+                }
 
-                if(number == 10){
+                if (number == 10) {
                     i++;
                     number += Character.getNumericValue(numberText.charAt(i));
                 }
 
                 fraction += number;
 
-                if(SPECIAL_FRACTION_NUMBERS.containsKey(number) && fraction < 10) {
-                   newText.append(SPECIAL_FRACTION_NUMBERS.get(number));
-                }
-                else newText.append(findTranslation(number));
+                if (SPECIAL_FRACTION_NUMBERS.containsKey(number) && fraction < 10) {
+                    newText.append(SPECIAL_FRACTION_NUMBERS.get(number));
+                } else newText.append(findTranslation(number));
                 newText.append(" ");
             }
-            if(fractionLength == 1){
-                if(fraction == 1) {
+            if (fractionLength == 1) {
+                if (fraction == 1) {
                     newText.append(NUMBER_SUFFIXES.get(3));
-                }
-                else if (fraction <= 4) {
+                } else if (fraction <= 4) {
                     newText.append(NUMBER_SUFFIXES.get(4));
-                }
-                else {
+                } else {
                     newText.append(NUMBER_SUFFIXES.get(5));
                 }
-            }
-            else {
-                if(fraction == 1) {
+            } else {
+                if (fraction == 1) {
                     newText.append(NUMBER_SUFFIXES.get(6));
-                }
-                else if (fraction % 10 <= 4 && fraction % 10 > 1) {
+                } else if (fraction % 10 <= 4 && fraction % 10 > 1) {
                     newText.append(NUMBER_SUFFIXES.get(7));
-                }
-                else {
+                } else {
                     newText.append(NUMBER_SUFFIXES.get(8));
-                };
+                }
             }
         }
 
@@ -189,22 +196,20 @@ public class NumberToTextTransformer extends TransformerDecorator{
     }
 
     /**
-     * Finds proper translation for a specific part of a number
-     * @param number Number for translation
-     * @return Converted text number
+     * Finds proper translation for a specific part of a number.
+     *
+     * @param number number for translation
+     * @return the converted number as text
      */
-    private String findTranslation(int number){
-        if(NUMBER_TRANSLATIONS.containsKey(number)) {
+    private String findTranslation(int number) {
+        if (NUMBER_TRANSLATIONS.containsKey(number)) {
             return NUMBER_TRANSLATIONS.get(number);
-        }
-        else {
-            if(number <= 19){
+        } else {
+            if (number <= 19) {
                 return NUMBER_TRANSLATIONS.get(number % 10) + NUMBER_SUFFIXES.get(0);
-            }
-            else if(number <= 90){
+            } else if (number <= 90) {
                 return NUMBER_TRANSLATIONS.get(number / 10) + NUMBER_SUFFIXES.get(1);
-            }
-            else if(number <= 1000){
+            } else if (number <= 1000) {
                 return NUMBER_TRANSLATIONS.get(number / 100) + NUMBER_SUFFIXES.get(2);
             }
         }

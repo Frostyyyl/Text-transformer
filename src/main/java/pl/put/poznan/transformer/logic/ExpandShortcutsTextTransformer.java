@@ -1,16 +1,23 @@
 package pl.put.poznan.transformer.logic;
-/**
- * Transformer for expanding declared strings
- */
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
- * Dictionary for predefined shortcuts
+ * A decorator implementation of the {@link Transformer} interface
+ * that converts the text by expanding words from their abbreviations.
+ * This class extends {@link TransformerDecorator} and modifies the behavior
+ * of the wrapped {@link Transformer}.
  */
 public class ExpandShortcutsTextTransformer extends TransformerDecorator {
+
+    /**
+     * Dictionary containing predefined abbreviations.
+     */
     private static final Map<String, String> KEYWORD_MAP = new HashMap<>();
+
     static {
         KEYWORD_MAP.put("Dr", "Doktor");
         KEYWORD_MAP.put("Prof.", "Profesor");
@@ -19,14 +26,23 @@ public class ExpandShortcutsTextTransformer extends TransformerDecorator {
         KEYWORD_MAP.put("itp.", "i tym podobne");
     }
 
+    /**
+     * Constructs an {@code ExpandShortcutsTextTransformer} with the specified {@link Transformer}.
+     *
+     * @param transformer the {@link Transformer} instance to be wrapped
+     */
     public ExpandShortcutsTextTransformer(Transformer transformer) {
         super(transformer);
     }
 
     /**
-     * @param text Text to transform
-     * @return Transformed expanded text
+     * Transforms the input text by first applying the transformation of the wrapped {@link Transformer}
+     * and then expanding all possible abbreviations in the result.
+     *
+     * @param text the input text to be transformed
+     * @return the transformed text
      */
+    @Override
     public String transform(String text) {
         text = transformer.transform(text);
 
@@ -48,11 +64,7 @@ public class ExpandShortcutsTextTransformer extends TransformerDecorator {
 
         return text;
     }
-    /**
-     * @param expansion expanded string from dictionary
-     * @param keyword original input found in the dictionary, case-sensitive
-     * @return shortcut with correct upper and lower case letters
-     */
+
     private String adjustCase(String expansion, String keyword) {
         if (keyword.equals(keyword.toUpperCase())) {
             return expansion.toUpperCase();

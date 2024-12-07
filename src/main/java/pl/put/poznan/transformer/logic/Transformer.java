@@ -1,13 +1,17 @@
 package pl.put.poznan.transformer.logic;
 
 /**
- * Interface that every transformer implements
+ * This interface represents an operation of text transformation.
+ * Classes implementing this interface are expected to provide a specific implementation
+ * for transforming a given text input into its transformed version.
  */
-public interface Transformer{
+public interface Transformer {
+
     /**
-     * Declaration of method for transform
-     * @param text Text to transform
-     * @return Transformed text
+     * Transforms the input text according to the specific implementation of the transformer.
+     *
+     * @param text the input text to be transformed
+     * @return the transformed text
      */
     String transform(String text);
 }

@@ -1,4 +1,5 @@
 package pl.put.poznan.transformer.rest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -7,9 +8,6 @@ import pl.put.poznan.transformer.logic.*;
 import java.util.Arrays;
 
 
-/**
- * API controller for our software that handles text transforms
- */
 @RestController
 @RequestMapping("/{text}")
 public class TextTransformerController {
@@ -18,7 +16,7 @@ public class TextTransformerController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public Response get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="upper, escape") String[] transforms) {
+                        @RequestParam(value = "transforms", defaultValue = "upper, escape") String[] transforms) {
 
         // log the parameters
         logger.debug(text);
@@ -30,7 +28,7 @@ public class TextTransformerController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public Response post(@PathVariable String text,
-                      @RequestBody String[] transforms) {
+                         @RequestBody String[] transforms) {
 
         // log the parameters
         logger.debug(text);
@@ -40,13 +38,7 @@ public class TextTransformerController {
         return new Response(transformedText);
     }
 
-    /**
-     * Finds and executes all transforms
-     * @param text Text to transform
-     * @param transforms List of transforms to execute
-     * @return Transformed text
-     */
-    private String performTransformation(String text, String[] transforms){
+    private String performTransformation(String text, String[] transforms) {
         TextTransformer textTransformer = new TextTransformer();
         String result = text;
 
@@ -68,7 +60,7 @@ public class TextTransformerController {
                     InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
                     result = inverseTextTransformer.transform(result);
                     break;
-                case "number_to_word":
+                case "numbers_to_text":
                     NumberToTextTransformer numberToTextTransformer = new NumberToTextTransformer(textTransformer);
                     result = numberToTextTransformer.transform(result);
                     break;
@@ -92,9 +84,6 @@ public class TextTransformerController {
         return result;
     }
 
-    /**
-     * Class for making JSON Objects
-     */
     public static class Response {
         private String text;
 
