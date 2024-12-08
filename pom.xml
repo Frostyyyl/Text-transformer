@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>pl.put.poznan</groupId>
-    <artifactId>io-project-architecture</artifactId>
+    <artifactId>TextTransformer</artifactId>
     <version>0.1</version>
 
 	<properties>
@@ -55,14 +55,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.1</version>
-                <configuration>
-                    <doctitle>My API for ${project.name} ${project.version}</doctitle>
-                    <windowtitle>My API for ${project.name} ${project.version}</windowtitle>
-
-                    <testDoctitle>My Test API for ${project.name} ${project.version}</testDoctitle>
-                    <testWindowtitle>My Test API for ${project.name} ${project.version}</testWindowtitle>
-                </configuration>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
