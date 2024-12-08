@@ -47,67 +47,57 @@ public class TextTransformerController {
     }
 
     private String performTransformation(String text, String[] transforms) {
-        TextTransformer textTransformer = new TextTransformer();
-        String result = text;
+        Transformer transformer = new TextTransformer();
 
         for (String transform : transforms) {
             switch (transform) {
                 case "upper":
-                    UpperTextTransformer upperTextTransformer = new UpperTextTransformer(textTransformer);
-                    result = upperTextTransformer.transform(result);
-                    logger.info("Performed the 'upper' transformation.");
+                    transformer = new UpperTextTransformer(transformer);
+                    logger.info("Added the 'upper' operation to transformer.");
                     break;
                 case "lower":
-                    LowerTextTransformer lowerTextTransformer = new LowerTextTransformer(textTransformer);
-                    result = lowerTextTransformer.transform(result);
-                    logger.info("Performed the 'lower' transformation.");
+                    transformer = new LowerTextTransformer(transformer);
+                    logger.info("Added the 'lower' operation to transformer.");
                     break;
                 case "capitalize":
-                    CapitalizeTextTransformer capitalizeTextTransformer = new CapitalizeTextTransformer(textTransformer);
-                    result = capitalizeTextTransformer.transform(result);
-                    logger.info("Performed the 'capitalize' transformation.");
+                    transformer = new CapitalizeTextTransformer(transformer);
+                    logger.info("Added the 'capitalize' operation to transformer.");
                     break;
                 case "inverse":
-                    InverseTextTransformer inverseTextTransformer = new InverseTextTransformer(textTransformer);
-                    result = inverseTextTransformer.transform(result);
-                    logger.info("Performed the 'inverse' transformation.");
+                    transformer = new InverseTextTransformer(transformer);
+                    logger.info("Added the 'inverse' operation to transformer.");
                     break;
                 case "numbers_to_text":
-                    NumberToTextTransformer numberToTextTransformer = new NumberToTextTransformer(textTransformer);
-                    result = numberToTextTransformer.transform(result);
-                    logger.info("Performed the 'numbers_to_text' transformation.");
+                    transformer = new NumberToTextTransformer(transformer);
+                    logger.info("Added the 'numbers_to_text' operation to transformer.");
                     break;
                 case "expand_shortcuts":
-                    ExpandShortcutsTextTransformer expandShortcutsTextTransformer = new ExpandShortcutsTextTransformer(textTransformer);
-                    result = expandShortcutsTextTransformer.transform(result);
-                    logger.info("Performed the 'expand_shortcuts' transformation.");
+                    transformer = new ExpandShortcutsTextTransformer(transformer);
+                    logger.info("Added the 'expand_shortcuts' operation to transformer.");
                     break;
                 case "abbreviate":
-                    AbbreviateTextTransformer abbreviateTextTransformer = new AbbreviateTextTransformer(textTransformer);
-                    result = abbreviateTextTransformer.transform(result);
-                    logger.info("Performed the 'abbreviate' transformation.");
+                    transformer = new AbbreviateTextTransformer(transformer);
+                    logger.info("Added the 'abbreviate' operation to transformer.");
                     break;
                 case "remove_duplicates":
-                    RemoveDuplicatesTextTransformer removeDuplicatesTextTransformer = new RemoveDuplicatesTextTransformer(textTransformer);
-                    result = removeDuplicatesTextTransformer.transform(result);
-                    logger.info("Performed the 'remove_duplicates' transformation.");
+                    transformer = new RemoveDuplicatesTextTransformer(transformer);
+                    logger.info("Added the 'remove_duplicates' operation to transformer.");
                     break;
                 default:
                     break;
             }
         }
 
-        return result;
+        return transformer.transform(text);
     }
 
+    // this class is for Spring Boot to properly display data
     public static class Response {
         private String text;
 
         public Response(String text) {
             this.text = text;
         }
-
-        // Those classes are for Spring Boot to show data
 
         public String getText() {
             return text;
