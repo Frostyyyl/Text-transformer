@@ -31,32 +31,38 @@ jobs:
           echo "Checking target directory contents..."
           ls -R target || { echo "No build artifacts found!"; exit 1; }
 
-      - name: Prepare artifacts for push
-        run: |
-          echo "Preparing artifacts for upload..."
-          mkdir -p artifacts
-
-          # Find and copy all JAR files explicitly
-          JAR_FILES=$(find target -name "*.jar")
-          if [ -n "$JAR_FILES" ]; then
-            echo "Copying JAR files:"
-            echo "$JAR_FILES"
-            cp $JAR_FILES artifacts/
-          else
-            echo "No JAR files found!"
-            exit 1
-          fi
-
-          # Copy API docs if they exist
-          if [ -d "target/site/apidocs" ]; then
-            echo "Copying APIDOCS..."
-            cp -r target/site/apidocs artifacts/
-          else
-            echo "No APIDOCS found!"
-          fi
-
-          echo "Artifacts directory content:"
-          ls -R artifacts
+          - name: Prepare artifacts for upload
+          run: |
+            echo "Preparing artifacts for upload..."
+            mkdir -p artifacts
+        
+            # Extract artifactId and version dynamically
+            ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        
+            # Construct the expected JAR file name
+            JAR_FILE="target/${ARTIFACT_ID}-${VERSION}.jar"
+        
+            # Check if the JAR file exists and copy it
+            if [ -f "$JAR_FILE" ]; then
+              echo "Found JAR file: $JAR_FILE"
+              cp "$JAR_FILE" artifacts/
+            else
+              echo "ERROR: JAR file not found: $JAR_FILE"
+              exit 1
+            fi
+        
+            # Copy API docs if they exist
+            if [ -d "target/site/apidocs" ]; then
+              echo "Copying APIDOCS..."
+              cp -r target/site/apidocs artifacts/
+            else
+              echo "No APIDOCS found!"
+            fi
+        
+            echo "Artifacts directory content:"
+            ls -R artifacts
+        
 
       - name: Push artifacts to 'artifacts' branch
         run: |
