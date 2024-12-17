@@ -25,3 +25,21 @@ jobs:
 
       - name: Validate, build and run tests
         run: mvn --batch-mode --update-snapshots verify
+
+      - name: Prepare artifacts for push
+        run: |
+          mkdir -p artifacts
+          cp target/*.jar artifacts/ || echo "No jar files found"
+          cp -r target/site/apidocs artifacts/ || echo "No apidocs found"
+
+      - name: Push artifacts to 'artifacts' branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git fetch
+          git checkout -b artifacts origin/artifacts || git checkout artifacts
+          mkdir -p artifacts
+          cp -r artifacts/* .
+          git add .
+          git commit -m "Add build artifacts (JAR and APIDOCS) from CI build" || echo "No changes to commit"
+          git push origin artifacts
