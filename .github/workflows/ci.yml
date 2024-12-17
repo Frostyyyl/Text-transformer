@@ -37,11 +37,10 @@ jobs:
           mkdir -p artifacts
 
           # Extract artifactId and version dynamically
-          ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
           # Construct the expected JAR file name
-          JAR_FILE="target/${ARTIFACT_ID}-${VERSION}.jar"
+          JAR_FILE="target/TextTransformer-${VERSION}.jar"
 
           # Check if the JAR file exists and copy it
           if [ -f "$JAR_FILE" ]; then
@@ -49,7 +48,7 @@ jobs:
             cp "$JAR_FILE" artifacts/
           else
             echo "ERROR: JAR file not found: $JAR_FILE"
-            exit 1
+            exit 2
           fi
 
           # Copy API docs if they exist
