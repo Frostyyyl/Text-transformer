@@ -31,28 +31,32 @@ jobs:
           echo "Checking target directory contents..."
           ls -R target || { echo "No build artifacts found!"; exit 1; }
 
-          - name: Prepare artifacts for upload
-          run: |
-            echo "Preparing artifacts..."
-            mkdir -p artifacts
-        
-            # Find and copy all .jar files
-            JAR_FILES=$(find target -name "*.jar")
-            if [ -n "$JAR_FILES" ]; then
-              echo "Copying JAR files:"
-              echo "$JAR_FILES"
-              cp $JAR_FILES artifacts/
-            else
-              echo "No JAR files found!"
-            fi
-        
-            # Copy APIDOCS if they exist
-            if [ -d "target/site/apidocs" ]; then
-              echo "Copying APIDOCS..."
-              cp -r target/site/apidocs artifacts/
-            else
-              echo "No APIDOCS found!"
-            fi
+      - name: Prepare artifacts for push
+        run: |
+          echo "Preparing artifacts for upload..."
+          mkdir -p artifacts
+
+          # Find and copy all JAR files explicitly
+          JAR_FILES=$(find target -name "*.jar")
+          if [ -n "$JAR_FILES" ]; then
+            echo "Copying JAR files:"
+            echo "$JAR_FILES"
+            cp $JAR_FILES artifacts/
+          else
+            echo "No JAR files found!"
+            exit 1
+          fi
+
+          # Copy API docs if they exist
+          if [ -d "target/site/apidocs" ]; then
+            echo "Copying APIDOCS..."
+            cp -r target/site/apidocs artifacts/
+          else
+            echo "No APIDOCS found!"
+          fi
+
+          echo "Artifacts directory content:"
+          ls -R artifacts
 
       - name: Push artifacts to 'artifacts' branch
         run: |
@@ -61,7 +65,11 @@ jobs:
           
           # Fetch and prepare artifacts branch
           git fetch origin
-          git checkout artifacts || git checkout -b artifacts
+          if git ls-remote --exit-code --heads origin artifacts; then
+            git checkout artifacts
+          else
+            git checkout -b artifacts
+          fi
 
           # Copy artifacts
           mkdir -p build-artifacts
