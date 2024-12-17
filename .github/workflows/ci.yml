@@ -31,44 +31,43 @@ jobs:
           echo "Checking target directory contents..."
           ls -R target || { echo "No build artifacts found!"; exit 1; }
 
-          - name: Prepare artifacts for upload
-          run: |
-            echo "Preparing artifacts for upload..."
-            mkdir -p artifacts
-        
-            # Extract artifactId and version dynamically
-            ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
-            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        
-            # Construct the expected JAR file name
-            JAR_FILE="target/${ARTIFACT_ID}-${VERSION}.jar"
-        
-            # Check if the JAR file exists and copy it
-            if [ -f "$JAR_FILE" ]; then
-              echo "Found JAR file: $JAR_FILE"
-              cp "$JAR_FILE" artifacts/
-            else
-              echo "ERROR: JAR file not found: $JAR_FILE"
-              exit 1
-            fi
-        
-            # Copy API docs if they exist
-            if [ -d "target/site/apidocs" ]; then
-              echo "Copying APIDOCS..."
-              cp -r target/site/apidocs artifacts/
-            else
-              echo "No APIDOCS found!"
-            fi
-        
-            echo "Artifacts directory content:"
-            ls -R artifacts
-        
+      - name: Prepare artifacts for upload
+        run: |
+          echo "Preparing artifacts for upload..."
+          mkdir -p artifacts
+
+          # Extract artifactId and version dynamically
+          ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+
+          # Construct the expected JAR file name
+          JAR_FILE="target/${ARTIFACT_ID}-${VERSION}.jar"
+
+          # Check if the JAR file exists and copy it
+          if [ -f "$JAR_FILE" ]; then
+            echo "Found JAR file: $JAR_FILE"
+            cp "$JAR_FILE" artifacts/
+          else
+            echo "ERROR: JAR file not found: $JAR_FILE"
+            exit 1
+          fi
+
+          # Copy API docs if they exist
+          if [ -d "target/site/apidocs" ]; then
+            echo "Copying APIDOCS..."
+            cp -r target/site/apidocs artifacts/
+          else
+            echo "No APIDOCS found!"
+          fi
+
+          echo "Artifacts directory content:"
+          ls -R artifacts
 
       - name: Push artifacts to 'artifacts' branch
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          
+
           # Fetch and prepare artifacts branch
           git fetch origin
           if git ls-remote --exit-code --heads origin artifacts; then
@@ -83,5 +82,5 @@ jobs:
           git add build-artifacts/
 
           # Commit and push changes
-          git commit -m "Add build artifacts (JAR and APIDOCS) from CI build" || echo "No changes to commit."
+          git commit -m "Add build artifacts (JAR and APIDOCS) - Run #${{ github.run_number }}" || echo "No changes to commit."
           git push origin artifacts
