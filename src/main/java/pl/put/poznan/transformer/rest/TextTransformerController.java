@@ -54,6 +54,10 @@ public class TextTransformerController {
                     transformer = new UpperTextTransformer(transformer);
                     logger.info("Added the 'upper' operation to transformer.");
                     break;
+                case "lower":
+                    transformer = new LowerTextTransformer(transformer);
+                    logger.info("Added the 'lower' operation to transformer.");
+                    break;
                 default:
                     break;
             }
