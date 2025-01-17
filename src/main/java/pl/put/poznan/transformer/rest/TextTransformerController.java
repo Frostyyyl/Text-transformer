@@ -74,6 +74,10 @@ public class TextTransformerController {
                     transformer = new AbbreviateTextTransformer(transformer);
                     logger.info("Added the 'abbreviate' operation to transformer.");
                     break;
+                case "remove_duplicates":
+                    transformer = new RemoveDuplicatesTextTransformer(transformer);
+                    logger.info("Added the 'remove_duplicates' operation to transformer.");
+                    break;
                 default:
                     break;
             }
