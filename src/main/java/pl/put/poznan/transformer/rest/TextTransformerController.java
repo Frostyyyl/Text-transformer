@@ -14,33 +14,56 @@ public class TextTransformerController {
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public String get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="upper,escape") String[] transforms) {
+    public Response get(@PathVariable String text,
+                        @RequestParam(value = "transforms", defaultValue = "upper, escape") String[] transforms) {
 
         // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        logger.debug("The 'GET' method input text: {}.", text);
+        logger.debug("The 'GET' method input transforms: {}", Arrays.toString(transforms));
 
-        // perform the transformation, you should run your logic here, below is just a silly example
-        TextTransformer transformer = new TextTransformer(transforms);
-        return transformer.transform(text);
+        String transformedText = performTransformation(text, transforms);
+
+        // log the result
+        logger.debug("The 'GET' method output text: {}", transformedText);
+
+        return new Response(transformedText);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String post(@PathVariable String text,
-                      @RequestBody String[] transforms) {
+    public Response post(@PathVariable String text,
+                         @RequestBody String[] transforms) {
 
         // log the parameters
-        logger.debug(text);
-        logger.debug(Arrays.toString(transforms));
+        logger.debug("The 'POST' method input text: {}.", text);
+        logger.debug("The 'POST' method input transforms: {}", Arrays.toString(transforms));
 
-        // perform the transformation, you should run your logic here, below is just a silly example
+        String transformedText = performTransformation(text, transforms);
+
+        // log the result
+        logger.debug("The 'POST' method output text: {}", transformedText);
+
+        return new Response(transformedText);
+    }
+
+    private String performTransformation(String text, String[] transforms) {
         TextTransformer transformer = new TextTransformer(transforms);
+
         return transformer.transform(text);
     }
 
+    public static class Response {
+        private String text;
 
+        public Response(String text) {
+            this.text = text;
+        }
 
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+    }
 }
-
-
