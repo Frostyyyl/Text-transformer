@@ -47,6 +47,17 @@ public class TextTransformerController {
 
     private String performTransformation(String text, String[] transforms) {
         Transformer transformer = new TextTransformer();
+        
+        for (String transform : transforms) {
+            switch (transform) {
+                case "upper":
+                    transformer = new UpperTextTransformer(transformer);
+                    logger.info("Added the 'upper' operation to transformer.");
+                    break;
+                default:
+                    break;
+            }
+        }
 
         return transformer.transform(text);
     }
