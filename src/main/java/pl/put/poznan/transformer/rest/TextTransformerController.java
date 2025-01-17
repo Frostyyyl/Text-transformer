@@ -58,6 +58,10 @@ public class TextTransformerController {
                     transformer = new LowerTextTransformer(transformer);
                     logger.info("Added the 'lower' operation to transformer.");
                     break;
+                case "inverse":
+                    transformer = new InverseTextTransformer(transformer);
+                    logger.info("Added the 'inverse' operation to transformer.");
+                    break;
                 default:
                     break;
             }
