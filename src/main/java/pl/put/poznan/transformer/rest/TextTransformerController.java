@@ -78,6 +78,10 @@ public class TextTransformerController {
                     transformer = new RemoveDuplicatesTextTransformer(transformer);
                     logger.info("Added the 'remove_duplicates' operation to transformer.");
                     break;
+                case "capitalize":
+                    transformer = new CapitalizeTextTransformer(transformer);
+                    logger.info("Added the 'capitalize' operation to transformer.");
+                    break;
                 default:
                     break;
             }
