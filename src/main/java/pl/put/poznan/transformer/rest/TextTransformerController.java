@@ -70,6 +70,10 @@ public class TextTransformerController {
                     transformer = new ExpandShortcutsTextTransformer(transformer);
                     logger.info("Added the 'expand_shortcuts' operation to transformer.");
                     break;
+                case "abbreviate":
+                    transformer = new AbbreviateTextTransformer(transformer);
+                    logger.info("Added the 'abbreviate' operation to transformer.");
+                    break;
                 default:
                     break;
             }
