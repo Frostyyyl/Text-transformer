@@ -62,6 +62,10 @@ public class TextTransformerController {
                     transformer = new InverseTextTransformer(transformer);
                     logger.info("Added the 'inverse' operation to transformer.");
                     break;
+                case "numbers_to_text":
+                    transformer = new NumberToTextTransformer(transformer);
+                    logger.info("Added the 'numbers_to_text' operation to transformer.");
+                    break;
                 default:
                     break;
             }
