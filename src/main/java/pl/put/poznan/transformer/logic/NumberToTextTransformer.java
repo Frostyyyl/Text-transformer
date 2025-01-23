@@ -54,7 +54,7 @@ public class NumberToTextTransformer extends TransformerDecorator {
         NUMBER_TRANSLATIONS.put(200, "dwieście");
         NUMBER_TRANSLATIONS.put(300, "trzysta");
         NUMBER_TRANSLATIONS.put(400, "czterysta");
-        NUMBER_TRANSLATIONS.put(1000, "tysiąć");
+        NUMBER_TRANSLATIONS.put(1000, "tysiąc");
 
         // Add suffixes
         NUMBER_SUFFIXES.add("naście");

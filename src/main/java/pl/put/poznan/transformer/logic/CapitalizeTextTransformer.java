@@ -29,6 +29,7 @@ public class CapitalizeTextTransformer extends TransformerDecorator {
      */
     @Override
     public String transform(String text) {
+        if(text.isEmpty()) return text;
         text = transformer.transform(text);
 
         // Split the text into words
