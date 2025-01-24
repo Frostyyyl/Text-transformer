@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Text Transformer</h1>
+    <label for="inputText">Enter text:</label>
+    <textarea id="inputText" rows="4"></textarea>
+
+    <label for="transformationOptions">Choose Transformations:</label>
+    <div id="transformationOptions">
+        <!-- Buttons for transformations -->
+        <button type="button" class="transform-option btn-primary" data-transform="upper">Uppercase</button>
+        <button type="button" class="transform-option btn-primary" data-transform="lower">Lowercase</button>
+        <button type="button" class="transform-option btn-primary" data-transform="inverse">Inverse</button>
+        <button type="button" class="transform-option btn-primary" data-transform="numbers_to_text">Numbers to Text</button>
+        <button type="button" class="transform-option btn-primary" data-transform="expand_shortcuts">Expand Shortcuts</button>
+        <button type="button" class="transform-option btn-primary" data-transform="abbreviate">Abbreviate</button>
+        <button type="button" class="transform-option btn-primary" data-transform="remove_duplicates">Remove Duplicates</button>
+        <button type="button" class="transform-option btn-primary" data-transform="capitalize">Capitalize</button>
+    </div>
+
+    <h3>Selected Transformations:</h3>
+    <ul id="selectedTransforms"></ul>
+
+    <button id="submitBtn" class="btn-primary">Get transformed text</button>
+
+    <h3>Transformed Text:</h3>
+    <div id="result" class="result-box">Your transformed text will appear here...</div>
+
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

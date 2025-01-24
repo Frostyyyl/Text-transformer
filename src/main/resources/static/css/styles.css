@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eda0d0;
+}
+
+.container {
+    width: 60%;
+    margin: 2rem auto;
+    background: #f8ecf8;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #560238;
+}
+
+label {
+    font-size: 1rem;
+    margin: 1rem 0;
+    display: block;
+    color: #81215e;
+}
+
+textarea{
+    width: 99%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+ul {
+    width: 30vw;
+}
+
+li {
+    list-style-type: none;
+    width: 100%;
+    margin: 0.6rem;
+    font-size: large;
+}
+
+.btn-primary {
+    background-color: #f20096;
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #da0187;
+}
+
+.btn-remove {
+    display: flex;
+    float: right;
+    background-color: #890593;
+    margin: 0;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-remove:hover {
+    background-color: #770480;
+}
+
+.result-box {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #333;
+    white-space: pre-wrap;
+    margin-top: 1rem;
+}
