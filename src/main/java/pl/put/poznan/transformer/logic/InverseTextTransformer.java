@@ -47,10 +47,16 @@ public class InverseTextTransformer extends TransformerDecorator {
     private String adjustCase(String originalText, String invertedText) {
         StringBuilder adjustedText = new StringBuilder();
         for (int i = 0; i < originalText.length(); i++) {
-            if (Character.isUpperCase(originalText.charAt(i)))
+            if (Character.isUpperCase(originalText.charAt(i))){
                 adjustedText.append(Character.toUpperCase(invertedText.charAt(i)));
-            if (Character.isLowerCase(originalText.charAt(i)))
+                continue;
+            }
+            if (Character.isLowerCase(originalText.charAt(i))){
                 adjustedText.append(Character.toLowerCase(invertedText.charAt(i)));
+                continue;
+            }
+
+            adjustedText.append(invertedText.charAt(i));
         }
         return adjustedText.toString();
     }
