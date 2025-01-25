@@ -31,7 +31,9 @@ public class TextTransformerController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public Response post(@PathVariable String text,
-                         @RequestBody String[] transforms) {
+                         @RequestBody InputTransforms data) {
+
+        String[] transforms = data.transforms;
 
         // log the parameters
         logger.debug("The 'POST' method input text: {}.", text);
@@ -104,5 +106,9 @@ public class TextTransformerController {
         public void setText(String text) {
             this.text = text;
         }
+    }
+
+    public static class InputTransforms {
+        public String[] transforms;
     }
 }
