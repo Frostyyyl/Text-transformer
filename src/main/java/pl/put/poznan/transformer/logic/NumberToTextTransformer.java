@@ -168,10 +168,12 @@ public class NumberToTextTransformer extends TransformerDecorator {
 
                 fraction += number;
 
-                if (SPECIAL_FRACTION_NUMBERS.containsKey(number) && fraction < 10) {
+                if (number == 2 && (fraction < 10 || fraction > 20)) {
+                    newText.append(SPECIAL_FRACTION_NUMBERS.get(number));
+                } else if (number == 1 && fraction < 10) {
                     newText.append(SPECIAL_FRACTION_NUMBERS.get(number));
                 } else newText.append(findTranslation(number));
-                newText.append(" ");
+                    newText.append(" ");
             }
             if (fractionLength == 1) {
                 if (fraction == 1) {
@@ -184,7 +186,7 @@ public class NumberToTextTransformer extends TransformerDecorator {
             } else {
                 if (fraction == 1) {
                     newText.append(NUMBER_SUFFIXES.get(6));
-                } else if (fraction % 10 <= 4 && fraction % 10 > 1) {
+                } else if (fraction % 10 <= 4 && fraction % 10 > 1 && (fraction / 10) != 1) {
                     newText.append(NUMBER_SUFFIXES.get(7));
                 } else {
                     newText.append(NUMBER_SUFFIXES.get(8));
