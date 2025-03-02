@@ -1,6 +1,8 @@
 # Text-Transformer 
 ![workflow](https://github.com/Frostyyyl/Text-transformer/actions/workflows/ci.yml/badge.svg)
 
+## General Information
+
 ### English
 For those working with text data, our **Text Transformer** application will enable text data transformations (e.g. changing case, eliminating duplicates, etc.). The application will be available via GUI as well as remote API so that it can be integrated with existing tools.
 
